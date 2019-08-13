@@ -1,0 +1,61 @@
+<div class="container">
+    <h3>{{eventBookingData.eventName}}</h3>
+    <p>Number of available seats: {{eventBookingData.seats}}</p>
+
+    <h3 style="color: blue; font-style: italic; text-align: center" *ngIf="message!=''">{{message}}</h3>
+
+    <div style="margin: 20px 0">
+            <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" class="needs-validation" novalidate>
+                <div class="form-group">
+                  <label for="firstName">Name:</label>
+                  <input type="text" class="form-control" id="firstName" placeholder="Enter name" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" [pattern]="'^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$'" required>
+                  <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
+                        <div *ngIf="firstName.errors.required">Please enter your name.</div>
+                        <div *ngIf="firstName.errors.pattern">Only letters are spaces are allowed.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                        <label for="uname">Email:</label>
+                        <input type="text" class="form-control" id="email" placeholder="Enter email" name="email" [(ngModel)]="model.email" #email="ngModel" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" [pattern]="'[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}'" required>
+                        <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+                                <div *ngIf="email.errors.required">Please enter your email.</div>
+                                <div *ngIf="email.errors.pattern">Invalid Email.</div>
+                            </div>
+                    </div>
+
+                    <div class="form-group">
+                            <label for="uname">Phone Number:</label>
+                            <input type="text" class="form-control" id="phone" placeholder="Enter Phone Number" name="phone" [(ngModel)]="model.phone" #phone="ngModel" [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }" minlength="10" maxlength="10" >
+                            <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
+                                    <div *ngIf="phone.errors.minlength">Please enter 10 digit phone number.</div>
+                                </div>
+                        </div>
+
+                        <div class="form-group">
+                                <label for="sel1">Number of seats:</label>
+                                <select class="form-control" (change)="checkSeats(model.seats)" id="seats" name="seats" [(ngModel)]="model.seats" #seats="ngModel" [ngClass]="{ 'is-invalid': f.submitted && seats.invalid }" required>
+                                  <option>1</option>
+                                  <option>2</option>
+                                  <option>3</option>
+                                  <option>4</option>
+                                  <option>5</option>
+                                  <option>6</option>
+                                </select>
+                                <div *ngIf="f.submitted && seats.invalid" class="invalid-feedback">
+                                        <div *ngIf="seats.errors.required">Please enter number of seats.</div>
+                                    </div>
+                              </div>
+
+                              <div class="form-group" *ngFor="let i of noOfSeats; let b=index">
+                                    <label for="uname">Name of other attendees:</label>
+                                    <input type="text" class="form-control" id="attendees" name="attendees" placeholder="Enter Attendee Name{{i}}" [(ngModel)]="model[i]" #attendees="ngModel" [ngClass]="{ 'is-invalid': f.submitted && attendees.invalid }" required>
+                                    <div *ngIf="f.submitted && attendees.invalid" class="invalid-feedback">
+                                            <div *ngIf="attendees.errors.required">Please enter name of attendees {{i}}.</div>
+                                        </div>
+                                </div>
+                                <!-- [disabled]="!f.valid" -->
+                <button type="submit"  class="btn btn-primary">Submit</button>
+                <a  routerLink="/eventListing"><button type="button" class="btn btn-primary" style="margin: 0 0 0 10px;">Cancel</button></a>
+              </form>
+    </div>
+</div>
